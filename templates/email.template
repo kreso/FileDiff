@@ -1,0 +1,52 @@
+﻿@using DiffPlex.DiffBuilder.Model
+<html>
+	<head>
+		<title>DIff Results</title>
+		<style type="text/css">
+			table{
+			width: 100%;
+			border:black thin solid;
+			}
+			
+			th, td{			
+			border: 5px;			
+			}
+
+			th{
+			color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<table>
+			<tr bgcolor="#003300"><th /><th>First</th><th>Second</th></tr>
+			@for(var i = 0; i < @Model.data[0].Count; i++)
+			{
+				<tr>
+					@{
+						var bgColorFirst = "#FFFFFF";						
+						var prefixFirst = "";
+						if (@Model.data[0][i].Type == ChangeType.Inserted) { bgColorFirst="#00cc00"; prefixFirst="+"; }
+						else if (@Model.data[0][i].Type == ChangeType.Deleted) { bgColorFirst="#FF3300"; prefixFirst="-"; }
+						else if (@Model.data[0][i].Type == ChangeType.Imaginary) { bgColorFirst="#cccccc"; }
+						else if (@Model.data[0][i].Type == ChangeType.Modified) { bgColorFirst="#FFFF99"; }
+
+						var bgColorSecond = "#FFFFFF";						
+						var prefixSecond = "";
+						if (@Model.data[1][i].Type == ChangeType.Inserted) { bgColorSecond="#00cc00"; prefixSecond="+"; }
+						else if (@Model.data[1][i].Type == ChangeType.Deleted) { bgColorSecond="#ff3300"; prefixSecond="-"; }
+						else if (@Model.data[1][i].Type == ChangeType.Imaginary) { bgColorSecond="#cccccc"; } 
+						else if (@Model.data[1][i].Type == ChangeType.Modified) { bgColorSecond="#FFFF99"; }
+					}
+					<td width=1px>@(i+1). </td>
+					<td bgcolor="@bgColorFirst">	
+						@prefixFirst @Model.data[0][i].Text							
+					</td>
+					<td bgcolor="@bgColorSecond">
+						@prefixSecond @Model.data[1][i].Text
+					</td>
+				</tr>
+			}
+		</table>
+	</body>
+</html>
